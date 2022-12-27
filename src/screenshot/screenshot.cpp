@@ -4,14 +4,19 @@
 #include <chrono>
 #include <ctime>  
 
-void ScreenshotService::takeScreenshot(){
+#include <cstdlib>
+#include <ApplicationServices/ApplicationServices.h>
+
+imageCapture ScreenshotService::takeScreenshot(){
     std::cout << "This is the screenshot service" << std::endl;
 
     auto start = std::chrono::system_clock::now();
 
 
-    std::string system_command="screencapture -x Image.png";
-    system((system_command).c_str());
+    // std::string system_command="screencapture -x Image.png";
+    // system((system_command).c_str());
+
+    imageCapture image = testEfficientScreenshot();
     
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
@@ -19,6 +24,29 @@ void ScreenshotService::takeScreenshot(){
     std::cout << "Screenshot taken"
               << "elapsed time: " << elapsed_seconds.count() << "s"
               << std::endl;
+    return image;
+}
 
+imageCapture ScreenshotService::testEfficientScreenshot(){
+    CGImageRef image_ref = CGDisplayCreateImage(CGMainDisplayID()); 
+    CGDataProviderRef provider = CGImageGetDataProvider(image_ref);
+    CFDataRef dataref = CGDataProviderCopyData(provider);
+    size_t width, height;    width = CGImageGetWidth(image_ref);
+    height = CGImageGetHeight(image_ref); 
+    std::cout << width << std::endl;
+    std::cout << height << std::endl;
+    size_t bpp = CGImageGetBitsPerPixel(image_ref) / 8;
+    uint8 *pixels = (uint8*) malloc(width * height * bpp);
+    memcpy(pixels, CFDataGetBytePtr(dataref), width * height * bpp);
+    CFRelease(dataref); 
+    CGImageRelease(image_ref); 
+
+    imageCapture image;
+    image.bpp = bpp;
+    image.height = height;
+    image.width = width;
+    image.pixels = (unsigned char*) pixels;
+
+    return image;
 }
 
