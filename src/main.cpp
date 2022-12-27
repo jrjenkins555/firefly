@@ -5,8 +5,8 @@
 #include "textRecognition/textRecognition.cpp"
 #include <unistd.h>
 
-
 using namespace std;
+
 
 int main() {
 
