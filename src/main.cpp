@@ -17,10 +17,10 @@ int main() {
 
 
     while(true){
-        screenshotService.takeScreenshot();
+        imageCapture image = screenshotService.takeScreenshot();
+        textRecognitionService.getText();
         compressionService.compressImage();
         storeageService.storeImage();
-        textRecognitionService.getText();
         sleep(5);
     }
 
