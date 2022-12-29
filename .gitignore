@@ -1,8 +1,12 @@
 # OS Generated Files #
-######################
 .DS_Store
 
 # External Libraries #
-######################
-external/
+library/
+
+# Compiled Files #
 build/
+
+# Any files used for testing #
+*.png
+*.txt
