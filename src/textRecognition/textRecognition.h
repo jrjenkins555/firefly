@@ -1,4 +1,8 @@
+#pragma once
+
+#include "../screenshot/screenshot.h"
+
 class TextRecognitionService{
     public:
-        void getText();
+        char* getText(imageCapture);
 };

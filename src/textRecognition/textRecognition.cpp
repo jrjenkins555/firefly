@@ -1,7 +1,7 @@
 #include <iostream>
 #include "textRecognition.h"
 
-void TextRecognitionService::getText(){
+char* TextRecognitionService::getText(imageCapture image){
     std::cout << "This is the text recognition service" << std::endl;
 }
 

@@ -1,3 +1,5 @@
+#pragma once
+
 class CompressionService{
     public:
         void compressImage();

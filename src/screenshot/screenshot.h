@@ -1,3 +1,4 @@
+#pragma once
 
 struct imageCapture{
     unsigned long height;
