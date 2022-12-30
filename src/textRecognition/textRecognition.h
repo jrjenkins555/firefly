@@ -1,4 +1,4 @@
 class TextRecognitionService{
     public:
-        void getText();
+        char* getText(imageCapture);
 };

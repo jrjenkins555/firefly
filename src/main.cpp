@@ -18,7 +18,7 @@ int main() {
 
     while(true){
         imageCapture image = screenshotService.takeScreenshot();
-        textRecognitionService.getText();
+        textRecognitionService.getText(image);
         compressionService.compressImage();
         storeageService.storeImage();
         sleep(5);
