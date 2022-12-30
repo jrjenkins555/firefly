@@ -10,3 +10,6 @@ build/
 # Any files used for testing #
 *.png
 *.txt
+
+# Build object and compiled files
+*.o
