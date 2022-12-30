@@ -4,6 +4,6 @@ Use of zlib https://www.codeguru.com/cplusplus/zlib-add-industrial-strength-comp
 
 # Compile using make
 
-- make main to build the project
-- ./main to run the project
+- `make main` to build the project
+- `./main` to run the project
 - add third parties library paths to LIBS var in Makefile to link
