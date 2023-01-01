@@ -2,7 +2,7 @@
 CC = g++
 
 # compiler flags
-CFLAGS = -g
+CFLAGS = -std=c++17
 
 # Build target
 TARGET = main
@@ -11,7 +11,7 @@ TARGET = main
 OBJ_FILES = screenshot/screenshot.o compression/compression.o storage/storage.o textRecognition/textRecognition.o
 
 # Third Party Libs
-LIBS = ../library/libz.a
+LIBS = ../library/libz.a ../library/tesseract/5.2.0/lib/libtesseract.a ../library/leptonica/1.82.0_1/lib/liblept.a
 
 # Clean command
 clean:
@@ -25,9 +25,13 @@ main.o: main.cpp screenshot/screenshot.h compression/compression.h storage/stora
 	$(CC) $(CFLAGS) -c main.cpp
 
 screenshot/screenshot.o: screenshot/screenshot.h
+	$(CC) $(CFLAGS) -c -o screenshot/screenshot.o screenshot/screenshot.cpp
 
 compression/compression.o: compression/compression.h
+	$(CC) $(CFLAGS) -c -o compression/compression.o compression/compression.cpp
 
 storage/storage.o: storage/storage.h
+	$(CC) $(CFLAGS) -c -o storage/storage.o storage/storage.cpp
 
 textRecognition/textRecognition.o: textRecognition/textRecognition.h
+	$(CC) $(CFLAGS) -c -o textRecognition/textRecognition.o textRecognition/textRecognition.cpp
