@@ -1,7 +1,7 @@
 #include <iostream>
 #include "compression.h"
 extern "C"{
-    #include "../../library/zlib.h"
+    #include "../../library/zlib/include/zlib.h"
 }
 
 void CompressionService::compressImage(){

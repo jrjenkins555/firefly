@@ -7,6 +7,21 @@ char* TextRecognitionService::getText(imageCapture image){
     std::cout << "This is the text recognition service" << std::endl;
 
     tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
-    api ->Init(NULL, "eng" );
+    if (api->Init(NULL, "eng")) {
+        fprintf(stderr, "Could not initialize tesseract.\n");
+        exit(1);
+    }
+
+    Pix* imageTest = pixRead("../../test3.png");
+    api ->SetImage(imageTest);
+
+    char *outText;
+    outText = api->GetUTF8Text();
+    printf("OCR output:\n%s", outText);
+
+    api->End();
+    delete api;
+    delete [] outText;
+    pixDestroy(&imageTest);
 }
 
