@@ -4,5 +4,5 @@
 
 class TextRecognitionService{
     public:
-        char* getText(imageCapture);
+        char* getText(imageCapture*);
 };

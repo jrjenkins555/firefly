@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <ApplicationServices/ApplicationServices.h>
 
-imageCapture ScreenshotService::takeScreenshot(){
+imageCapture* ScreenshotService::takeScreenshot(){
     std::cout << "This is the screenshot service" << std::endl;
 
     auto start = std::chrono::system_clock::now();
@@ -16,7 +16,7 @@ imageCapture ScreenshotService::takeScreenshot(){
     // std::string system_command="screencapture -x Image.png";
     // system((system_command).c_str());
 
-    imageCapture image = testEfficientScreenshot();
+    imageCapture* image = testEfficientScreenshot();
     
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
@@ -27,7 +27,7 @@ imageCapture ScreenshotService::takeScreenshot(){
     return image;
 }
 
-imageCapture ScreenshotService::testEfficientScreenshot(){
+imageCapture* ScreenshotService::testEfficientScreenshot(){
     CGImageRef image_ref = CGDisplayCreateImage(CGMainDisplayID()); 
     CGDataProviderRef provider = CGImageGetDataProvider(image_ref);
     CFDataRef dataref = CGDataProviderCopyData(provider);
@@ -41,12 +41,15 @@ imageCapture ScreenshotService::testEfficientScreenshot(){
     CFRelease(dataref); 
     CGImageRelease(image_ref); 
 
-    imageCapture image;
-    image.bpp = bpp;
-    image.height = height;
-    image.width = width;
-    image.pixels = (unsigned char*) pixels;
+    // FILE *stream = fopen("screencap.raw", "w+");
+    // fwrite(pixels, bpp, width * height, stream);
+    // fclose(stream); 
 
+    imageCapture* image = new imageCapture;
+    image->bpp = bpp;
+    image->height = height;
+    image->width = width;
+    image->pixels = (unsigned char*) pixels;
     return image;
 }
 

@@ -9,7 +9,7 @@ struct imageCapture{
 
 class ScreenshotService{
     public:
-        imageCapture takeScreenshot();
+        imageCapture* takeScreenshot();
     private:
-        imageCapture testEfficientScreenshot();
+        imageCapture* testEfficientScreenshot();
 };

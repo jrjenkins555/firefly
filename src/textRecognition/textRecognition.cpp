@@ -3,7 +3,7 @@
 #include "../../library/leptonica/1.82.0_1/include/leptonica/allheaders.h"
 #include "../../library/tesseract/5.2.0/include/tesseract/baseapi.h"
 
-char* TextRecognitionService::getText(imageCapture image){
+char* TextRecognitionService::getText(imageCapture* image){
     std::cout << "This is the text recognition service" << std::endl;
 
     tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
@@ -12,8 +12,10 @@ char* TextRecognitionService::getText(imageCapture image){
         exit(1);
     }
 
-    Pix* imageTest = pixRead("../../test3.png");
-    api ->SetImage(imageTest);
+    //Pix* imageTest = pixRead("../../test3.png");
+    //api ->SetImage(imageTest);
+
+    api ->SetImage(image->pixels, image->width, image->height,image->bpp, image->width * image->bpp);
 
     char *outText;
     outText = api->GetUTF8Text();
@@ -22,6 +24,6 @@ char* TextRecognitionService::getText(imageCapture image){
     api->End();
     delete api;
     delete [] outText;
-    pixDestroy(&imageTest);
+    delete image;
 }
 
