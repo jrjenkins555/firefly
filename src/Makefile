@@ -2,32 +2,27 @@
 CC = g++
 
 # compiler flags
-CFLAGS = -g
+# CFLAGS = -std=c++17
 
 # Build target
 TARGET = main
 
-# Object Files
-OBJ_FILES = screenshot/screenshot.o compression/compression.o storage/storage.o textRecognition/textRecognition.o
+CFLAGS=-I../library/tesseract/5.2.0/include -I../library/leptonica/1.82.0_1/inclue -I../library/zlib/include
+LDFLAGS=-L../library/tesseract/5.2.0/lib -L../library/leptonica/1.82.0_1/lib -L../library/zlib/lib
+LDLIBS=-ltesseract -llept -lz -framework ApplicationServices
 
-# Third Party Libs
-LIBS = ../library/libz.a
+SOURCES=compression/compression.cpp screenshot/screenshot.cpp storage/storage.cpp textRecognition/textRecognition.cpp
+OBJECTS=compression/compression.o screenshot/screenshot.o storage/storage.o textRecognition/textRecognition.o
 
-# Clean command
+EXECUTABLE=main
+
+all: $(SOURCES) $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) -std=c++17 -o $@ $@.o $(OBJECTS) $(LDFLAGS) $(LDLIBS)
+
+%.o: %.cpp
+	$(CC) -std=c++17 $(CFLAGS) -c $< -o $@
+
 clean:
-	$(RM) $(TARGET) $(TARGET).o $(OBJ_FILES)
-
-# link the executable
-main: main.o screenshot/screenshot.o compression/compression.o storage/storage.o textRecognition/textRecognition.o
-	$(CC) $(CFLAGS) -o main $(TARGET).o $(OBJ_FILES) $(LIBS) -framework ApplicationServices
-
-main.o: main.cpp screenshot/screenshot.h compression/compression.h storage/storage.h textRecognition/textRecognition.h
-	$(CC) $(CFLAGS) -c main.cpp
-
-screenshot/screenshot.o: screenshot/screenshot.h
-
-compression/compression.o: compression/compression.h
-
-storage/storage.o: storage/storage.h
-
-textRecognition/textRecognition.o: textRecognition/textRecognition.h
+	rm -f $(OBJECTS) $(EXECUTABLE)
