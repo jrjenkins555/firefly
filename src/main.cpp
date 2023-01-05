@@ -19,10 +19,12 @@ int main() {
     while(true){
         imageCapture* image = screenshotService.takeScreenshot();
         textRecognitionService.getText(image);
-        compressionService.compressImage();
+        compressionService.compressBuffer(image);
         storeageService.storeImage();
         sleep(5);
     }
+    imageCapture* image = screenshotService.takeScreenshot();
+    compressionService.compressBuffer(image);
 
     return 0;
 }

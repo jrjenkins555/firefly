@@ -21,7 +21,7 @@ imageCapture* ScreenshotService::takeScreenshot(){
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
 
-    std::cout << "Screenshot taken"
+    std::cout << "Screenshot taken\n"
               << "elapsed time: " << elapsed_seconds.count() << "s"
               << std::endl;
     return image;
@@ -31,7 +31,8 @@ imageCapture* ScreenshotService::testEfficientScreenshot(){
     CGImageRef image_ref = CGDisplayCreateImage(CGMainDisplayID()); 
     CGDataProviderRef provider = CGImageGetDataProvider(image_ref);
     CFDataRef dataref = CGDataProviderCopyData(provider);
-    size_t width, height;    width = CGImageGetWidth(image_ref);
+    size_t width, height;    
+    width = CGImageGetWidth(image_ref);
     height = CGImageGetHeight(image_ref); 
     std::cout << width << std::endl;
     std::cout << height << std::endl;

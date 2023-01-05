@@ -4,6 +4,21 @@ extern "C"{
     #include "../../library/zlib/include/zlib.h"
 }
 
+unsigned char* CompressionService::compressBuffer(imageCapture* image) {
+    const int bytes = image->height * image->width * image->bpp;
+    uLong destLen = compressBound(bytes); // upper bound for output buffer
+    uLong* destLenCopy = new uLong(destLen);
+    std::cout << "size before: " << destLen << std::endl;
+    // pointer to mem with output - 'Bytef' is same as 'unsigned char' or 'Byte'
+    Bytef* dest = new Bytef[destLen];
+    compress(dest, &destLen, (Bytef*) image->pixels, bytes);
+    std::cout << "size after: " << destLen << std::endl;
+    std::cout << "compressed by " << ((float) (*destLenCopy - destLen) / *destLenCopy) * 100 << "%" << std::endl;
+    delete destLenCopy;
+    delete image;
+    return (unsigned char*) dest;
+}
+
 void CompressionService::compressImage(){
     std::cout << "This is the compression service" << std::endl;
     compress_one_file("Image.png", "out.z");

@@ -24,6 +24,5 @@ char* TextRecognitionService::getText(imageCapture* image){
     api->End();
     delete api;
     delete [] outText;
-    delete image;
 }
 
