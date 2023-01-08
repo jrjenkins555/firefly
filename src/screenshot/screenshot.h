@@ -1,6 +1,6 @@
 #pragma once
 
-struct imageCapture{
+struct ImageCapture{
     unsigned long height;
     unsigned long width;
     unsigned long bpp;
@@ -9,7 +9,7 @@ struct imageCapture{
 
 class ScreenshotService{
     public:
-        imageCapture* takeScreenshot();
+        ImageCapture* takeScreenshot();
     private:
-        imageCapture* testEfficientScreenshot();
+        ImageCapture* testEfficientScreenshot();
 };

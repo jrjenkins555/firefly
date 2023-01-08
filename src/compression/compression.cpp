@@ -1,22 +1,31 @@
 #include <iostream>
 #include "compression.h"
-extern "C"{
-    #include "../../library/zlib/include/zlib.h"
-}
 
-unsigned char* CompressionService::compressBuffer(imageCapture* image) {
+CompressedImage* CompressionService::compressBuffer(ImageCapture* image) {
     const int bytes = image->height * image->width * image->bpp;
     uLong destLen = compressBound(bytes); // upper bound for output buffer
-    uLong* destLenCopy = new uLong(destLen);
+    uLong* destLenCopy = new uLong(destLen); // DELETE later: copy for reporting % compressed
     std::cout << "size before: " << destLen << std::endl;
     // pointer to mem with output - 'Bytef' is same as 'unsigned char' or 'Byte'
     Bytef* dest = new Bytef[destLen];
     compress(dest, &destLen, (Bytef*) image->pixels, bytes);
     std::cout << "size after: " << destLen << std::endl;
     std::cout << "compressed by " << ((float) (*destLenCopy - destLen) / *destLenCopy) * 100 << "%" << std::endl;
-    delete destLenCopy;
+    delete destLenCopy; // DELETE later
     delete image;
-    return (unsigned char*) dest;
+    CompressedImage* compressed = new CompressedImage;
+    compressed->image = dest;
+    compressed->compressedSize = destLen;
+    compressed->originalSize = bytes;
+    return compressed;
+}
+
+void CompressionService::decompressBuffer(CompressedImage* compressed) {
+    std::cout << "Decompressing image" << std::endl;
+    // need to store size of original image to allocate enough buffer space here
+    int* dest = new int[compressed->originalSize];
+    uncompress((Bytef*) dest, &(compressed->originalSize), compressed->image, compressed->compressedSize);
+    // std::cout << "size of image: " <<  << std::endl;
 }
 
 void CompressionService::compressImage(){
