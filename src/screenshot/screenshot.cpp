@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <ApplicationServices/ApplicationServices.h>
 
-imageCapture* ScreenshotService::takeScreenshot(){
+ImageCapture* ScreenshotService::takeScreenshot(){
     std::cout << "This is the screenshot service" << std::endl;
 
     auto start = std::chrono::system_clock::now();
@@ -16,22 +16,23 @@ imageCapture* ScreenshotService::takeScreenshot(){
     // std::string system_command="screencapture -x Image.png";
     // system((system_command).c_str());
 
-    imageCapture* image = testEfficientScreenshot();
+    ImageCapture* image = testEfficientScreenshot();
     
     auto end = std::chrono::system_clock::now();
     std::chrono::duration<double> elapsed_seconds = end-start;
 
-    std::cout << "Screenshot taken"
+    std::cout << "Screenshot taken\n"
               << "elapsed time: " << elapsed_seconds.count() << "s"
               << std::endl;
     return image;
 }
 
-imageCapture* ScreenshotService::testEfficientScreenshot(){
+ImageCapture* ScreenshotService::testEfficientScreenshot(){
     CGImageRef image_ref = CGDisplayCreateImage(CGMainDisplayID()); 
     CGDataProviderRef provider = CGImageGetDataProvider(image_ref);
     CFDataRef dataref = CGDataProviderCopyData(provider);
-    size_t width, height;    width = CGImageGetWidth(image_ref);
+    size_t width, height;    
+    width = CGImageGetWidth(image_ref);
     height = CGImageGetHeight(image_ref); 
     std::cout << width << std::endl;
     std::cout << height << std::endl;
@@ -45,7 +46,7 @@ imageCapture* ScreenshotService::testEfficientScreenshot(){
     // fwrite(pixels, bpp, width * height, stream);
     // fclose(stream); 
 
-    imageCapture* image = new imageCapture;
+    ImageCapture* image = new ImageCapture;
     image->bpp = bpp;
     image->height = height;
     image->width = width;
